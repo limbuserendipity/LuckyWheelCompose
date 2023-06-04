@@ -13,16 +13,29 @@ val Typography = Typography(
         fontWeight = FontWeight.Normal,
         fontSize = 16.sp
     )
-    /* Other default text styles to override
-    button = TextStyle(
-        fontFamily = FontFamily.Default,
-        fontWeight = FontWeight.W500,
-        fontSize = 14.sp
-    ),
-    caption = TextStyle(
-        fontFamily = FontFamily.Default,
-        fontWeight = FontWeight.Normal,
-        fontSize = 12.sp
-    )
-    */
+)
+
+val handEmoji = "\uD83D\uDCCD" //📍
+
+val bugEmoji = "\uD83D\uDC1E" // 🐞
+val brainEmoji = "\uD83E\uDDE0"  // 🧠
+val cloverEmoji = "\uD83C\uDF4B"  // 🍀
+val limonEmoji = "\uD83C\uDF4B" // 🍋
+val moneyEmoji = "\uD83D\uDCB8" // 💸
+val deadEmoji = "\uD83D\uDC80" // 💀
+val diamondEmoji = "\uD83D\uDC8E" // 💎
+val crownEmoji = "\uD83D\uDC51" // 👑
+val starEmoji = "\uD83D\uDC51" // ✨
+
+
+fun getEmoji() = listOf(
+    bugEmoji,
+    brainEmoji,
+    cloverEmoji,
+    limonEmoji,
+    moneyEmoji,
+    deadEmoji,
+    diamondEmoji,
+    crownEmoji,
+    starEmoji,
 )
