@@ -37,13 +37,21 @@ class LwGame(
     }
 
     fun finishedListener(value : Float){
-        lwState.enabled.value = true
-        refreshWheel()
+        lwState.showDialog.value = !lwState.showDialog.value
     }
 
     fun onDragStopped(velocity : Float){
         lwState.angle.value = velocity
     }
 
+    fun onDismissRequest(){
+        lwState.showDialog.value = !lwState.showDialog.value
+        lwState.enabled.value = true
+        refreshWheel()
+    }
+
+    fun onTopStick(stick : Stick){
+        lwState.topStick.value = stick
+    }
 
 }
