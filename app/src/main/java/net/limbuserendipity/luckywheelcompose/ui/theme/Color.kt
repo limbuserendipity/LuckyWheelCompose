@@ -1,4 +1,4 @@
-package net.limboserendipity.luckywheelcompose.ui.theme
+package net.limbuserendipity.luckywheelcompose.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

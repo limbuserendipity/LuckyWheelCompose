@@ -1,4 +1,4 @@
-package net.limboserendipity.luckywheelcompose
+package net.limbuserendipity.luckywheelcompose
 
 import org.junit.Test
 

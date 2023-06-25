@@ -1,4 +1,4 @@
-package net.limboserendipity.luckywheelcompose.ui.theme
+package net.limbuserendipity.luckywheelcompose.ui.theme
 
 import androidx.compose.material.Typography
 import androidx.compose.ui.text.TextStyle
@@ -15,24 +15,25 @@ val Typography = Typography(
     )
 )
 
-val handEmoji = "\uD83D\uDCCD" //📍
+const val handEmoji = "\uD83D\uDCCD" //📍
 
-val bugEmoji = "\uD83D\uDC1E" // 🐞
-val brainEmoji = "\uD83E\uDDE0"  // 🧠
-val cloverEmoji = "\uD83C\uDF4B"  // 🍀
-val limonEmoji = "\uD83C\uDF4B" // 🍋
-val moneyEmoji = "\uD83D\uDCB8" // 💸
-val deadEmoji = "\uD83D\uDC80" // 💀
-val diamondEmoji = "\uD83D\uDC8E" // 💎
-val crownEmoji = "\uD83D\uDC51" // 👑
-val starEmoji = "\uD83D\uDC51" // ✨
+const val bugEmoji = "\uD83D\uDC1E" // 🐞
+const val brainEmoji = "\uD83E\uDDE0"  // 🧠
+const val cloverEmoji = "\uD83C\uDF4B"  // 🍀
+const val lemonEmoji = "\uD83C\uDF4B" // 🍋
+const val moneyEmoji = "\uD83D\uDCB8" // 💸
+const val deadEmoji = "\uD83D\uDC80" // 💀
+const val diamondEmoji = "\uD83D\uDC8E" // 💎
+const val crownEmoji = "\uD83D\uDC51" // 👑
+const val starEmoji = "\uD83D\uDC51" // ✨
 
+val inventoryEmoji = "\uD83D\uDCBC" //💼
 
 fun getEmoji() = listOf(
     bugEmoji,
     brainEmoji,
     cloverEmoji,
-    limonEmoji,
+    lemonEmoji,
     moneyEmoji,
     deadEmoji,
     diamondEmoji,

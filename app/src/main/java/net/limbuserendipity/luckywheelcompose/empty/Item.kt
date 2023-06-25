@@ -1,4 +1,4 @@
-package net.limboserendipity.luckywheelcompose.empty
+package net.limbuserendipity.luckywheelcompose.empty
 
 data class Item(
     val emoji : String

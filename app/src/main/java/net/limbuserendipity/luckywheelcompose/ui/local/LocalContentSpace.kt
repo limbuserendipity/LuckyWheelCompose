@@ -1,4 +1,4 @@
-package net.limboserendipity.luckywheelcompose.ui.local
+package net.limbuserendipity.luckywheelcompose.ui.local
 
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.ui.unit.Dp

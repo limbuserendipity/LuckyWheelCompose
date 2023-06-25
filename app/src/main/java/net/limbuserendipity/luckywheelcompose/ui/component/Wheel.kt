@@ -1,4 +1,4 @@
-package net.limboserendipity.luckywheelcompose.ui.component
+package net.limbuserendipity.luckywheelcompose.ui.component
 
 import android.graphics.Paint
 import androidx.compose.foundation.Canvas
@@ -22,7 +22,7 @@ import androidx.compose.ui.graphics.drawscope.rotate
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.unit.dp
-import net.limboserendipity.luckywheelcompose.empty.Stick
+import net.limbuserendipity.luckywheelcompose.empty.Stick
 import kotlin.math.cos
 import kotlin.math.sin
 

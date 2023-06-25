@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace 'net.limboserendipity.luckywheelcompose'
+    namespace 'net.limbuserendipity.luckywheelcompose'
     compileSdk 33
 
     defaultConfig {
-        applicationId "net.limboserendipity.luckywheelcompose"
+        applicationId "net.limbuserendipity.luckywheelcompose"
         minSdk 24
         targetSdk 33
         versionCode 1

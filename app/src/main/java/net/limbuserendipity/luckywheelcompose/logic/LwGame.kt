@@ -1,12 +1,9 @@
-package net.limboserendipity.luckywheelcompose.logic
+package net.limbuserendipity.luckywheelcompose.logic
 
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateOf
-import net.limboserendipity.luckywheelcompose.empty.Item
-import net.limboserendipity.luckywheelcompose.empty.Stick
-import net.limboserendipity.luckywheelcompose.ui.theme.getColors
-import net.limboserendipity.luckywheelcompose.ui.theme.getEmoji
+import net.limbuserendipity.luckywheelcompose.empty.Item
+import net.limbuserendipity.luckywheelcompose.empty.Stick
+import net.limbuserendipity.luckywheelcompose.ui.theme.getColors
+import net.limbuserendipity.luckywheelcompose.ui.theme.getEmoji
 import kotlin.random.Random
 
 class LwGame(
@@ -16,7 +13,6 @@ class LwGame(
     init{
         refreshWheel()
     }
-
 
     fun refreshWheel() {
         val min = 2
@@ -52,6 +48,10 @@ class LwGame(
 
     fun onTopStick(stick : Stick){
         lwState.topStick.value = stick
+    }
+
+    fun showInventory(){
+        lwState.showInventory.value = !lwState.showInventory.value
     }
 
 }

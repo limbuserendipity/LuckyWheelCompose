@@ -1,4 +1,4 @@
-package net.limboserendipity.luckywheelcompose.ui.component
+package net.limbuserendipity.luckywheelcompose.ui.component
 
 import androidx.compose.animation.core.AnimationSpec
 import androidx.compose.animation.core.animateFloatAsState
@@ -20,10 +20,9 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
-import net.limboserendipity.luckywheelcompose.ui.local.LocalContentPadding
-import net.limboserendipity.luckywheelcompose.ui.theme.handEmoji
-import net.limboserendipity.luckywheelcompose.ui.theme.lwHandBlue
-import net.limboserendipity.luckywheelcompose.ui.theme.lwHandRed
+import net.limbuserendipity.luckywheelcompose.ui.local.LocalContentPadding
+import net.limbuserendipity.luckywheelcompose.ui.theme.handEmoji
+import net.limbuserendipity.luckywheelcompose.ui.theme.lwHandBlue
 import kotlin.math.abs
 import kotlin.math.roundToInt
 
