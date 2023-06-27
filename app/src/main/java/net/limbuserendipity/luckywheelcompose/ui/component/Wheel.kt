@@ -1,6 +1,7 @@
 package net.limbuserendipity.luckywheelcompose.ui.component
 
 import android.graphics.Paint
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -14,15 +15,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.geometry.center
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.*
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.rotate
-import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.graphics.nativeCanvas
+import androidx.compose.ui.graphics.drawscope.translate
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import net.limbuserendipity.luckywheelcompose.empty.Stick
+import net.limbuserendipity.luckywheelcompose.ui.theme.lwHandRed
 import kotlin.math.cos
 import kotlin.math.sin
 
@@ -35,20 +38,6 @@ fun Wheel(
 ) {
     BoxWithConstraints(
         modifier = modifier
-            .fillMaxWidth()
-            .border(
-                width = 4.dp,
-                color = Color.Black,
-                shape = CircleShape
-            )
-            .graphicsLayer {
-                rotationZ = 270f
-            }
-            .clip(CircleShape)
-            .background(
-                color = MaterialTheme.colors.surface,
-                shape = CircleShape
-            )
     ) {
 
         val stickSize = 360f / sticks.size
@@ -57,80 +46,56 @@ fun Wheel(
 
         Canvas(
             modifier = Modifier
-                .size(maxWidth)
-                .background(color = MaterialTheme.colors.surface)
-                .padding(16.dp)
+                .size(if (maxWidth < maxHeight) maxWidth else maxHeight)
         ) {
 
-            drawWheelSticks(
-                sticks = sticks,
-                startAngle = angle,
-                stickSize = stickSize
+
+            rotate(
+                degrees = 270f,
+                pivot = center
+            ) {
+                drawWheelSticks(
+                    sticks = sticks,
+                    startAngle = angle,
+                    stickSize = stickSize
+                )
+
+                drawBorderSticks(
+                    sticks = sticks,
+                    startAngle = angle,
+                    stickSize = stickSize
+                )
+
+                drawItemSticks(
+                    sticks = sticks,
+                    startAngle = angle,
+                    stickSize = stickSize
+                )
+            }
+
+            drawCenterCircle(
+                color = lwHandRed,
+                radius = maxWidth.value * 0.1f
             )
 
-            drawBorderSticks(
-                sticks = sticks,
-                startAngle = angle,
-                stickSize = stickSize
+            val markerSize = Size(
+                width = maxWidth.value * 0.3f,
+                height = maxHeight.value * 0.2f
             )
 
-            drawItemSticks(
-                sticks = sticks,
-                startAngle = angle,
-                stickSize = stickSize
-            )
+            translate(
+                left = center.y - markerSize.width / 2,
+                top = 0f - markerSize.height * 0.30f
+            ) {
+                drawMarker(
+                    color = lwHandRed,
+                    size = markerSize
+                )
+            }
 
         }
     }
 
-}
-
-fun DrawScope.drawSticks(
-    sticks: List<Stick>,
-    startAngle: Float,
-    stickSize: Float,
-    stickCenter: Float = stickSize / 2f
-) {
-    val iconSize = size.width * 0.10f
-    val iconCenter = iconSize / 2f
-    val iconTopLeft = size.width * 0.33f
-    sticks.forEachIndexed { index, stick ->
-        drawArc(
-            color = stick.color,
-            startAngle = startAngle + (stickSize * index),
-            sweepAngle = stickSize,
-            useCenter = true
-        )
-        drawArc(
-            color = Color.Black,
-            startAngle = startAngle + (stickSize * index),
-            sweepAngle = stickSize,
-            useCenter = true,
-            style = Stroke(
-                width = 4f
-            )
-        )
-        val angle =
-            Math.toRadians((startAngle + stickSize * index + stickCenter).toDouble())
-                .toFloat()
-        val paint = Paint().apply {
-            textSize = iconSize
-        }
-        rotate(
-            degrees = startAngle + stickSize * (index + 2),
-            pivot = Offset(
-                x = size.center.x + iconTopLeft * cos(angle),
-                y = size.center.y + iconTopLeft * sin(angle)
-            )
-        ) {
-            drawContext.canvas.nativeCanvas.drawText(
-                stick.item.emoji,
-                size.center.x + iconTopLeft * cos(angle) - iconCenter,
-                size.center.y + iconTopLeft * sin(angle) + (iconCenter / 2f),
-                paint
-            )
-        }
-    }
 }
 
 fun DrawScope.drawWheelSticks(
@@ -152,15 +117,22 @@ fun DrawScope.drawBorderSticks(
     sticks: List<Stick>,
     startAngle: Float,
     stickSize: Float,
+    strokeWidth: Float = 12f,
+    strokeColorFun: (Stick) -> Color = { stick: Stick ->
+        lerp(stick.color, Color.Black, 0.1f)
+    }
 ) {
-    sticks.forEachIndexed { index, stick ->
+
+    val borderColors = sticks.map(strokeColorFun)
+
+    borderColors.forEachIndexed { index, color ->
         drawArc(
-            color = Color.Black,
+            color = color,
             startAngle = startAngle + (stickSize * index),
             sweepAngle = stickSize,
             useCenter = true,
             style = Stroke(
-                width = 4f
+                width = strokeWidth
             )
         )
     }
@@ -199,6 +171,53 @@ fun DrawScope.drawItemSticks(
             )
         }
     }
+}
+
+fun DrawScope.drawCenterCircle(
+    color: Color,
+    radius: Float,
+    borderWeight: Float = 8f,
+    borderColor: Color = lerp(color, Color.Black, 0.1f)
+) {
+    drawCircle(
+        color = color,
+        radius = radius
+    )
+
+    drawCircle(
+        color = borderColor,
+        radius = radius,
+        style = Stroke(borderWeight)
+    )
+
+}
+
+fun DrawScope.drawMarker(
+    color: Color,
+    size: Size,
+    borderWeight: Float = 8f,
+    borderColor: Color = lerp(color, Color.Black, 0.1f)
+) {
+    val path: Path = Path()
+
+    path.moveTo(0f, 0f)
+    path.lineTo(size.width, 0f)
+    path.lineTo(size.center.x, size.height)
+    path.lineTo(0f, 0f)
+    path.lineTo(size.width, 0f)
+
+    drawPath(
+        path = path,
+        color = color
+    )
+
+    drawPath(
+        path = path,
+        color = borderColor,
+        style = Stroke(
+            width = borderWeight
+        )
+    )
 }
 
 fun DrawScope.drawBorderWheel() {

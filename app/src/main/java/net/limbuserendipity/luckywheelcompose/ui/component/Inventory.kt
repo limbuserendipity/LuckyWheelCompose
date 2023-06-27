@@ -25,7 +25,6 @@ import net.limbuserendipity.luckywheelcompose.logic.Inventory
 import net.limbuserendipity.luckywheelcompose.ui.local.LocalContentPadding
 import net.limbuserendipity.luckywheelcompose.ui.local.LocalContentSpace
 
-
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun FlowInventory(

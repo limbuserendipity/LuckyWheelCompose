@@ -1,5 +1,10 @@
 package net.limbuserendipity.luckywheelcompose.ui.screen
 
+import android.annotation.SuppressLint
+import android.graphics.ComposeShader
+import android.graphics.RuntimeShader
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
@@ -8,9 +13,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.RectangleShape
-import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.graphics.*
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.DpSize
@@ -27,6 +30,7 @@ import net.limbuserendipity.luckywheelcompose.ui.component.Wheel
 import net.limbuserendipity.luckywheelcompose.ui.local.LocalContentPadding
 import net.limbuserendipity.luckywheelcompose.ui.theme.inventoryEmoji
 
+
 @Composable
 fun LuckyWheelScreen() {
 
@@ -40,14 +44,6 @@ fun LuckyWheelScreen() {
             item = lwState.topStick.value.item,
             onDismissRequest = lwGame::onDismissRequest
         )
-    }
-
-    DropdownMenu(
-        expanded = lwState.showInventory.value,
-        onDismissRequest = lwGame::showInventory,
-        offset = DpOffset(150.dp, 150.dp)
-    ) {
-        FlowInventory(inventory = lwState.inventory.value)
     }
 
     Scaffold(
@@ -90,6 +86,16 @@ fun LuckyWheelContent(
         modifier = modifier
     ) {
 
+
+        DropdownMenu(
+            expanded = lwState.showInventory.value,
+            onDismissRequest = lwGame::showInventory
+        ) {
+            DropdownMenuItem(onClick = {  }) {
+                FlowInventory(inventory = lwState.inventory.value)
+            }
+        }
+
         val animatedAngle = animateFloatAsState(
             targetValue = lwState.angle.value,
             animationSpec = tween(
@@ -101,7 +107,10 @@ fun LuckyWheelContent(
         Wheel(
             angle = animatedAngle.value,
             sticks = lwState.sticks.value,
-            onTopStick = lwGame::onTopStick
+            onTopStick = lwGame::onTopStick,
+            modifier = Modifier
+                .padding(LocalContentPadding.current.medium)
+                .fillMaxWidth()
         )
 
     }
@@ -110,18 +119,18 @@ fun LuckyWheelContent(
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun ActionItem(
-    emoji : String,
+    emoji: String,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
-    size : DpSize = DpSize(48.dp,48.dp),
+    size: DpSize = DpSize(64.dp, 64.dp),
     paddingValues: PaddingValues = LocalContentPadding.current.medium,
     enabled: Boolean = true,
     shape: Shape = RectangleShape,
-    color: Color = contentColorFor(MaterialTheme.colors.surface),
+    color: Color = MaterialTheme.colors.background,
     contentColor: Color = contentColorFor(color),
     border: BorderStroke? = null,
     elevation: Dp = 1.dp,
-){
+) {
     Surface(
         onClick = onClick,
         enabled = enabled,
@@ -135,7 +144,7 @@ fun ActionItem(
         Box(
             contentAlignment = Alignment.Center,
             modifier = modifier.padding(paddingValues)
-        ){
+        ) {
             Text(
                 text = emoji,
                 style = MaterialTheme.typography.h4

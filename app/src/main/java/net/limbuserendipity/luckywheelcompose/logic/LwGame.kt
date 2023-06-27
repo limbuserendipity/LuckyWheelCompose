@@ -8,9 +8,9 @@ import kotlin.random.Random
 
 class LwGame(
     val lwState: LwState
-){
+) {
 
-    init{
+    init {
         refreshWheel()
     }
 
@@ -32,25 +32,26 @@ class LwGame(
         lwState.sticks.value = sticks
     }
 
-    fun finishedListener(value : Float){
+    fun finishedListener(value: Float) {
         lwState.showDialog.value = !lwState.showDialog.value
     }
 
-    fun onDragStopped(velocity : Float){
+    fun onDragStopped(velocity: Float) {
         lwState.angle.value = velocity
     }
 
-    fun onDismissRequest(){
+    fun onDismissRequest() {
         lwState.showDialog.value = !lwState.showDialog.value
         lwState.enabled.value = true
+        lwState.inventory.value.add(lwState.topStick.value.item)
         refreshWheel()
     }
 
-    fun onTopStick(stick : Stick){
+    fun onTopStick(stick: Stick) {
         lwState.topStick.value = stick
     }
 
-    fun showInventory(){
+    fun showInventory() {
         lwState.showInventory.value = !lwState.showInventory.value
     }
 
