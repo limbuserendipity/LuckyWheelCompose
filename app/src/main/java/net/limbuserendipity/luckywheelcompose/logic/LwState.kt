@@ -10,6 +10,7 @@ class LwState(
     val sticks: MutableState<List<Stick>>,
     val enabled: MutableState<Boolean>,
     val angle: MutableState<Float>,
+    val isWin : MutableState<Boolean>,
     val showDialog : MutableState<Boolean>,
     val topStick: MutableState<Stick>,
     val showInventory : MutableState<Boolean>,
@@ -21,6 +22,7 @@ fun rememberLwState(
     sticks: List<Stick> = emptyList(),
     enabled: Boolean = true,
     angle: Float = 0f,
+    isWin : Boolean = false,
     showDialog : Boolean = false,
     topStick: Stick = Stick(Item(bugEmoji), lwGreen),
     showInventory : Boolean = false,
@@ -32,6 +34,8 @@ fun rememberLwState(
     val stateEnabled = remember { mutableStateOf(enabled) }
 
     val stateAngle = remember { mutableStateOf(angle) }
+
+    val stateIsWin = remember { mutableStateOf(isWin) }
 
     val stateShowDialog = remember { mutableStateOf(showDialog) }
 
@@ -45,6 +49,7 @@ fun rememberLwState(
         sticks = stateSticks,
         enabled = stateEnabled,
         angle = stateAngle,
+        isWin = stateIsWin,
         showDialog = stateShowDialog,
         topStick = stateTopStick,
         showInventory = stateShowInventory,

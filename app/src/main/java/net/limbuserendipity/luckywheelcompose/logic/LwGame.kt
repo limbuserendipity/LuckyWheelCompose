@@ -2,6 +2,7 @@ package net.limbuserendipity.luckywheelcompose.logic
 
 import net.limbuserendipity.luckywheelcompose.empty.Item
 import net.limbuserendipity.luckywheelcompose.empty.Stick
+import net.limbuserendipity.luckywheelcompose.ui.theme.deadEmoji
 import net.limbuserendipity.luckywheelcompose.ui.theme.getColors
 import net.limbuserendipity.luckywheelcompose.ui.theme.getEmoji
 import kotlin.random.Random
@@ -34,10 +35,12 @@ class LwGame(
 
     fun finishedListener(value: Float) {
         lwState.showDialog.value = !lwState.showDialog.value
+        lwState.enabled.value = true
     }
 
     fun onDragStopped(velocity: Float) {
         lwState.angle.value = velocity
+        lwState.enabled.value = false
     }
 
     fun onDismissRequest() {
@@ -49,6 +52,7 @@ class LwGame(
 
     fun onTopStick(stick: Stick) {
         lwState.topStick.value = stick
+        lwState.isWin.value = stick.item != Item(emoji = deadEmoji)
     }
 
     fun showInventory() {

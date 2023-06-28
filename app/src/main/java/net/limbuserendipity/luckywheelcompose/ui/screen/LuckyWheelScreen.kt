@@ -1,12 +1,8 @@
 package net.limbuserendipity.luckywheelcompose.ui.screen
 
-import android.annotation.SuppressLint
-import android.graphics.ComposeShader
-import android.graphics.RuntimeShader
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
@@ -14,8 +10,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.*
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
@@ -24,11 +22,11 @@ import net.limbuserendipity.luckywheelcompose.empty.Item
 import net.limbuserendipity.luckywheelcompose.logic.LwGame
 import net.limbuserendipity.luckywheelcompose.logic.LwState
 import net.limbuserendipity.luckywheelcompose.logic.rememberLwState
-import net.limbuserendipity.luckywheelcompose.ui.component.FlowInventory
-import net.limbuserendipity.luckywheelcompose.ui.component.Hand
-import net.limbuserendipity.luckywheelcompose.ui.component.Wheel
+import net.limbuserendipity.luckywheelcompose.ui.component.*
 import net.limbuserendipity.luckywheelcompose.ui.local.LocalContentPadding
+import net.limbuserendipity.luckywheelcompose.ui.local.LocalContentSpace
 import net.limbuserendipity.luckywheelcompose.ui.theme.inventoryEmoji
+import net.limbuserendipity.luckywheelcompose.ui.theme.lwHandRed
 
 
 @Composable
@@ -42,8 +40,18 @@ fun LuckyWheelScreen() {
     if (lwState.showDialog.value) {
         ItemDialog(
             item = lwState.topStick.value.item,
+            lwState.isWin.value,
             onDismissRequest = lwGame::onDismissRequest
         )
+    }
+
+    DropdownMenu(
+        expanded = lwState.showInventory.value,
+        onDismissRequest = lwGame::showInventory
+    ) {
+        DropdownMenuItem(onClick = {}) {
+            FlowInventory(inventory = lwState.inventory.value)
+        }
     }
 
     Scaffold(
@@ -80,21 +88,10 @@ fun LuckyWheelContent(
     lwGame: LwGame,
     modifier: Modifier = Modifier
 ) {
-    Column(
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally,
+    BoxWithConstraints(
+        contentAlignment = Alignment.Center,
         modifier = modifier
     ) {
-
-
-        DropdownMenu(
-            expanded = lwState.showInventory.value,
-            onDismissRequest = lwGame::showInventory
-        ) {
-            DropdownMenuItem(onClick = {  }) {
-                FlowInventory(inventory = lwState.inventory.value)
-            }
-        }
 
         val animatedAngle = animateFloatAsState(
             targetValue = lwState.angle.value,
@@ -112,7 +109,6 @@ fun LuckyWheelContent(
                 .padding(LocalContentPadding.current.medium)
                 .fillMaxWidth()
         )
-
     }
 }
 
@@ -156,6 +152,7 @@ fun ActionItem(
 @Composable
 fun ItemDialog(
     item: Item,
+    isWin : Boolean,
     onDismissRequest: () -> Unit,
     properties: DialogProperties = DialogProperties(),
     scaleInitialValue: Float = 1f,
@@ -168,7 +165,7 @@ fun ItemDialog(
 
     val infiniteTransition = rememberInfiniteTransition()
 
-    val animatableScale = infiniteTransition.animateFloat(
+    val animateScale = infiniteTransition.animateFloat(
         initialValue = scaleInitialValue,
         targetValue = scaleTargetValue,
         animationSpec = animationSpec
@@ -178,14 +175,86 @@ fun ItemDialog(
         onDismissRequest = onDismissRequest,
         properties = properties
     ) {
-        Box(
-            contentAlignment = Alignment.Center,
-            modifier = Modifier.scale(animatableScale.value)
+        BoxWithConstraints(
+            modifier = Modifier
+                .fillMaxSize()
+                .pointerInput(Unit) {
+                    detectTapGestures {
+                        onDismissRequest()
+                    }
+                }
         ) {
-            Text(
-                text = item.emoji,
-                style = MaterialTheme.typography.h1
-            )
+            if(isWin){
+                DialogWinningContent(
+                    item = item,
+                    animateScale = animateScale
+                )
+            }else{
+                DialogLosingContent(
+                    item = item,
+                    animateScale = animateScale
+                )
+            }
         }
+    }
+}
+@Composable
+fun BoxWithConstraintsScope.DialogWinningContent(
+    item: Item,
+    animateScale: State<Float>
+) {
+    Column(
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier
+            .align(Alignment.Center)
+            .scale(animateScale.value)
+    ) {
+        Text(
+            text = item.emoji,
+            style = MaterialTheme.typography.h1
+        )
+    }
+
+    with(LocalDensity.current){
+        ConfettiParticle(
+            x = maxWidth.toPx() / 2,
+            y = 0f,
+            modifier = Modifier.fillMaxSize()
+        )
+    }
+}
+
+@Composable
+fun BoxWithConstraintsScope.DialogLosingContent(
+    item: Item,
+    animateScale: State<Float>
+) {
+    Column(
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier
+            .align(Alignment.Center)
+            .scale(animateScale.value)
+    ) {
+        Text(
+            text = item.emoji,
+            style = MaterialTheme.typography.h1
+        )
+        Spacer(modifier = Modifier.size(LocalContentSpace.current.medium))
+        Text(
+            text = "You lose",
+            fontWeight = FontWeight.Bold,
+            color = lwHandRed,
+            style = MaterialTheme.typography.h2
+        )
+    }
+
+    with(LocalDensity.current){
+        BloodParticle(
+            x = maxWidth.toPx() / 2,
+            y = maxHeight.toPx(),
+            modifier = Modifier.fillMaxSize()
+        )
     }
 }
