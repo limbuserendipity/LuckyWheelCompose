@@ -18,9 +18,7 @@ fun ConfettiParticle(
     force: Force = Force.Gravity(0.01f),
     acceleration: Acceleration = Acceleration(),
     particleSize: ParticleSize = ParticleSize.RandomSizes(10..30),
-    particleColor: ParticleColor = ParticleColor.RandomColors(
-        listOf(lwOrange, lwRed, lwBlue, lwBrown, lwAqua, lwYellow, lwGreen, lwPink, lwPurple)
-    ),
+    particleColor: ParticleColor = ParticleColor.RandomColors(getColors()),
     lifeTime: LifeTime = LifeTime(255f, 0.01f),
     emissionType: EmissionType = EmissionType.FlowEmission(
         maxParticlesCount = 300,
@@ -53,7 +51,7 @@ fun BloodParticle(
     acceleration: Acceleration = Acceleration(0f, -4f),
     particleSize: ParticleSize = ParticleSize.RandomSizes(10..20),
     particleColor: ParticleColor = ParticleColor.RandomColors(
-        listOf(lwHandRed, lwRed, Color.Black, Color.Red)
+        listOf(lwHandRed, lwHandRed, Color.Black, Color.Red)
     ),
     lifeTime: LifeTime = LifeTime(255f, 1f),
     emissionType: EmissionType = EmissionType.FlowEmission(maxParticlesCount = 500),

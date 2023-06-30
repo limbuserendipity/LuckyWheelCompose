@@ -29,8 +29,8 @@ import net.limbuserendipity.luckywheelcompose.ui.local.LocalContentSpace
 @Composable
 fun FlowInventory(
     inventory: Inventory<Item>,
-    modifier : Modifier = Modifier
-){
+    modifier: Modifier = Modifier
+) {
 
     val itemModifier = Modifier
         .size(42.dp, 104.dp)
@@ -44,7 +44,7 @@ fun FlowInventory(
             InventoryItem(
                 item = item,
                 color = MaterialTheme.colors.surface.copy(alpha = 0.4f),
-                border = BorderStroke(1.dp,MaterialTheme.colors.surface),
+                border = BorderStroke(1.dp, MaterialTheme.colors.surface),
                 modifier = itemModifier
             )
         }
@@ -54,13 +54,13 @@ fun FlowInventory(
 @Composable
 fun GridInventory(
     inventory: Inventory<Item>,
-){
+) {
 
     val itemModifier = Modifier
         .size(42.dp, 104.dp)
         .clickable { }
 
-    val stateItems = remember{
+    val stateItems = remember {
         inventory.items.toMutableStateList()
     }
 
@@ -68,12 +68,12 @@ fun GridInventory(
         columns = GridCells.Fixed(3),
         contentPadding = LocalContentPadding.current.large,
         modifier = Modifier.fillMaxWidth()
-    ){
-        items(inventory.items){ item ->
+    ) {
+        items(inventory.items) { item ->
             InventoryItem(
                 item = item,
                 color = MaterialTheme.colors.surface.copy(alpha = 0.4f),
-                border = BorderStroke(1.dp,MaterialTheme.colors.surface),
+                border = BorderStroke(1.dp, MaterialTheme.colors.surface),
                 modifier = itemModifier
             )
         }
@@ -83,7 +83,7 @@ fun GridInventory(
 
 @Composable
 fun InventoryItem(
-    item : Item,
+    item: Item,
     modifier: Modifier = Modifier,
     shape: Shape = MaterialTheme.shapes.medium,
     color: Color = MaterialTheme.colors.surface,
@@ -91,7 +91,7 @@ fun InventoryItem(
     border: BorderStroke? = null,
     elevation: Dp = 0.dp,
     paddingValues: PaddingValues = LocalContentPadding.current.medium
-){
+) {
     Surface(
         shape = shape,
         color = color,

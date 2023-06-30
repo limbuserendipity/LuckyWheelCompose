@@ -48,8 +48,6 @@ fun Wheel(
             modifier = Modifier
                 .size(if (maxWidth < maxHeight) maxWidth else maxHeight)
         ) {
-
-
             rotate(
                 degrees = 270f,
                 pivot = center

@@ -8,19 +8,19 @@ import net.limbuserendipity.luckywheelcompose.ui.theme.getEmoji
 import kotlin.random.Random
 
 class LwGame(
-    val lwState: LwState
+    private val lwState: LwState
 ) {
 
     init {
         refreshWheel()
     }
 
-    fun refreshWheel() {
+    private fun refreshWheel() {
         val min = 2
         val sticks = mutableListOf<Stick>()
         val colors = getColors()
         val max = colors.size - min
-        val range = Random.nextInt(min, max)
+        val range = Random.nextInt(max) + min
 
         repeat(range) { index ->
             val stick = Stick(
